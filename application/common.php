@@ -10,3 +10,17 @@
 // +----------------------------------------------------------------------
 
 // 应用公共文件
+if ( ! function_exists('getMillisecond'))
+{
+    /*返回字符串的毫秒数时间戳
+     */
+    function getMillisecond()
+    {
+        $time = explode (" ", microtime () );
+        $millisecond =   $time [0] * 1000 < 100?$time [0] * 1000 + 100:$time [0] * 1000;
+        $time = $time [1] .$millisecond;
+        $time2 = explode ( ".", $time );
+        $time = $time2 [0];
+        return (int)$time;
+    }
+}
