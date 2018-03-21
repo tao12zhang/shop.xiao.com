@@ -20,6 +20,7 @@ class BaseController extends Controller
     protected $msg = '';
     protected $code = '';
 
+
     public function __construct()
     {
         parent::__construct();
