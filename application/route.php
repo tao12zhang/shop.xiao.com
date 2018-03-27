@@ -17,6 +17,11 @@ return [
         ':id'   => ['index/hello', ['method' => 'get'], ['id' => '\d+']],
         ':name' => ['index/hello', ['method' => 'post']],
     ],
-    //'[admin]' => ['login' => 'admin/users/',],
+    '[admin]' => [
+        'login' => 'admin/users/login',
+        'logout'=> 'admin/users/logout',
+        'getUsersList'=>'admin/users/getUsersList',
+        'addUsersInfo'=>'admin/users/addUsersInfo',
+    ],
 
 ];

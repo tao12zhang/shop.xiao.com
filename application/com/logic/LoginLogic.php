@@ -14,7 +14,7 @@ use app\com\model\Users;
 use app\com\logic\Base;
 
 
-class login extends Base{
+class loginLogic extends BaseLogic{
 
     private $usersModel = '';
     public function __construct()
@@ -37,10 +37,12 @@ class login extends Base{
                 return true;
             }else{
                 $this->msg = "密码错误";
+                $this->status = false;
                 return false;
             }
         }else{
-            $this->msg = "用户不存在";
+            $this->msg = "用户不存在或者用户错误";
+            $this->status = false;
             return false;
         }
     }
@@ -50,6 +52,7 @@ class login extends Base{
     {
         session('id', null);
         session('username',null);
+        $this->msg = "退出成功";
 
         return true;
     }

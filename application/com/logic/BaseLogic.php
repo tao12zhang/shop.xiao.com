@@ -10,7 +10,7 @@ namespace app\com\logic;
 use \think\Model;
 use \think\loader;
 
-class Base extends Model{
+class BaseLogic extends Model{
 
     public $status = true;
     public $msg = '';

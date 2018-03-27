@@ -43,6 +43,10 @@ class BaseController extends Controller
         return $this->msg = $msg;
     }
 
+    public  function setStatus($status){
+        return $this->status = $status;
+    }
+
     public function outputForJson($data = null){
         $result = array(
             'success'=>$this->status,
