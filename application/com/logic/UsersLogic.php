@@ -70,10 +70,12 @@ class UsersLogic extends BaseLogic{
         }
         //验证 name 是否重复添加
         $checkName = $this->usersModel->checkNameAdd($data['name']);
+        //dump($checkName);die;
         if($checkName == false){
             $this->msg = $this->usersModel->msg;
             return false;
         }
+        $role_id = $data['role_id'];
         //验证角色 id
         $checkRoleId = $this->RoleModel->checkRoleId($data['role_id']);
         if($checkRoleId == false){
@@ -87,28 +89,86 @@ class UsersLogic extends BaseLogic{
         //处理角色
         if($Id){
             $roleData = [
-                'role_id' 	=> $data['role_id'],
+                'role_id' 	=> $role_id,
                 'uid' 		=> $Id
             ];
+            $result = $this->RoleuserModel->addRoleUser($roleData);
+            return true;
         }
 
-
-
-
-
-
-
-
-
-
-
-
+        return false;
     }
 
     //编辑管理员用户
-    public function updateUsersInfo()
+    public function updateUsersInfo($data)
     {
+        //判断,超级管理员不能修改
+        $id = (int) $data['id'];
+        if($id == 1){
+            $this->msg = '超级管理员不能修改!';
+            return false;
+        }
+        //判断编辑用户是否存在
+        $find = $this->usersModel->getUsersById($id);
+        if(!$find){
+            $this->msg = '参数错误';
+            return false;
+        }
+        //users验证
+        $UsersValidate = new UsersValidate;
+        $check = $UsersValidate->scene('edit')->check($data);
+        //验证失败
+        if($check == false){
+            $this->msg = $UsersValidate->getError();
+            return false;
+        }
+        //验证 name 是否重复添加
+        $checkName = $this->usersModel->checkNameUpdate($data);
+        if($checkName == false){
+            $this->msg = $this->usersModel->msg;
+            return false;
+        }
+        $role_id = $data['role_id'];
+        //验证角色 id
+        $checkRoleId = $this->RoleModel->checkRoleId($data['role_id']);
+        if($checkRoleId == false){
+            $this->msg = $this->RoleModel->msg;
+            return false;
+        }
+        unset($data['role_id']);
+        unset($data['id']);
+        //dump($data);die;
+        //保存数据
+        $updateData = $this->usersModel->updateUserInfo($data,$id);
+        //处理角色
+        if($updateData){
+            $roleData = [
+                'role_id' 	=> $role_id,
+                'uid' 		=> $id
+            ];
+            $result = $this->RoleuserModel->addRoleUser($roleData);
+            return true;
+        }
 
+        $this->msg = '操作失败或没有数据可更新';
+        return false;
+
+    }
+
+    //删除管理员
+    public function deleteUsersInfo($id)
+    {
+        $delete = $this->usersModel->deleteUsersInfo($id);
+        if($delete == false){
+            $this->msg = $this->usersModel->msg;
+            return false;
+        }
+        //删除用户角色
+        if($delete){
+            $result = $this->RoleuserModel->deleteRoleUsers($id);
+        }
+
+        return true;
     }
 
 

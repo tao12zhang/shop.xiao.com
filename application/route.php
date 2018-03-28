@@ -22,6 +22,9 @@ return [
         'logout'=> 'admin/users/logout',
         'getUsersList'=>'admin/users/getUsersList',
         'addUsersInfo'=>'admin/users/addUsersInfo',
+        'updateUsersInfo'=>'admin/users/updateUsersInfo',
+        'deleteUsersInfo'=>'admin/users/deleteUsersInfo',
+
     ],
 
 ];

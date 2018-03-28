@@ -59,28 +59,45 @@ class UsersController extends BaseController
     //添加用户
     public function addUsersInfo()
     {
-        $data = [
-            'name' =>'涛哥',
-            'nickname' =>'涛哥哥',
+        /*$data = [
+            'name' =>'古龙',
+            'nickname' =>'古龙',
             'passwd' =>123456,
             'role_id' =>2,
             'status' =>1,
-        ];
+        ];*/
+        $data = $this->params;
         $result = $this->UsersLogic->addUsersInfo($data);
-        $this->setMsg($this->UsersLogic->msg);
+        if($result == false){
+            $this->setMsg($this->UsersLogic->msg);
+            $this->setStatus(false);
+        }
         $this->outputForJson($result);
     }
 
     //编辑用户
     public function updateUsersInfo()
     {
-
+        $data = $this->params;
+        $result = $this->UsersLogic->updateUsersInfo($data);
+        if($result == false){
+            $this->setMsg($this->UsersLogic->msg);
+            $this->setStatus(false);
+        }
+        $this->outputForJson($result);
     }
 
     //删除用户
     public function deleteUsersInfo()
     {
-
+        $id = $this->params['id'];
+        $result = $this->UsersLogic->deleteUsersInfo($id);
+        //dump($result);die;
+        if($result == false){
+            $this->setMsg($this->UsersLogic->msg);
+            $this->setStatus(false);
+        }
+        $this->outputForJson($result);
     }
 
 }
